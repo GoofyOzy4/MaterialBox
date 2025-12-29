@@ -154,47 +154,41 @@
       </action>
     </keybind>
     <!-- SCREENSHOTS -->
-    <keybind key="Print">
-      <action name="Execute">
-        <command>sh -c 'maim ~/Pictures/$(date +%s).png'</command>
-      </action>
-    </keybind>
-    <keybind key="W-Print">
-      <action name="Execute">
-        <command>maim --window "$(xdotool getactivewindow)" "~/Pictures/$(date +%s).png"</command>
-      </action>
-    </keybind>
-    <keybind key="S-Print">
-      <action name="Execute">
-        <command>maim --select ~/Pictures/$(date +%s).png</command>
-      </action>
-    </keybind>
-    <keybind key="C-Print">
-      <action name="Execute">
-        <command>maim | xclip -selection clipboard -t image/png</command>
-      </action>
-    </keybind>
-    <keybind key="C-W-Print">
-      <action name="Execute">
-        <command>maim --window "$(xdotool getactivewindow)" | "xclip -selection clipboard -t image/png"</command>
-      </action>
-    </keybind>
-    <keybind key="C-S-Print">
-      <action name="Execute">
-        <command>maim --select | xclip -selection clipboard -t image/png</command>
-      </action>
-    </keybind>
-    <!-- VOLUME -->
-    <keybind key="XF86AudioRaiseVolume">
-      <action name="Execute">
-        <command>pactl set-sink-volume @DEFAULT_SINK@ +10%</command>
-      </action>
-    </keybind>
-    <keybind key="XF86AudioLowerVolume">
-      <action name="Execute">
-        <command>pactl set-sink-volume @DEFAULT_SINK@ -10%</command>
-      </action>
-    </keybind>
+  <keybind key="Print">
+    <action name="Execute">
+      <command>bash -c 'maim ~/Pictures/$(date +%s).png'</command>
+    </action>
+  </keybind>
+
+  <keybind key="W-Print">
+    <action name="Execute">
+      <command>bash -c 'maim --window $(xdotool getactivewindow) ~/Pictures/$(date +%s).png'</command>
+    </action>
+  </keybind>
+
+  <keybind key="S-Print">
+    <action name="Execute">
+      <command>bash -c 'maim --select ~/Pictures/$(date +%s).png'</command>
+    </action>
+  </keybind>
+
+  <keybind key="C-Print">
+    <action name="Execute">
+      <command>bash -c 'maim | xclip -selection clipboard -t image/png'</command>
+    </action>
+  </keybind>
+
+  <keybind key="C-W-Print">
+    <action name="Execute">
+      <command>bash -c 'maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png'</command>
+    </action>
+  </keybind>
+
+  <keybind key="C-S-Print">
+    <action name="Execute">
+      <command>bash -c 'maim --select | xclip -selection clipboard -t image/png'</command>
+    </action>
+  </keybind>
   </keyboard>
   <!-- THEME -->
   <theme>
