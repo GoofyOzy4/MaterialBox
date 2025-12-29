@@ -189,6 +189,25 @@
       <command>bash -c 'maim --select | xclip -selection clipboard -t image/png'</command>
     </action>
   </keybind>
+
+  <!-- VOLUME CONTROL -->
+  <keybind key="XF86AudioRaiseVolume">
+    <action name="Execute">
+      <command>pactl set-sink-volume @DEFAULT_SINK@ +10%</command>
+    </action>
+  </keybind>
+
+  <keybind key="XF86AudioLowerVolume">
+    <action name="Execute">
+      <command>pactl set-sink-volume @DEFAULT_SINK@ -10%</command>
+    </action>
+  </keybind>
+
+  <keybind key="XF86AudioMute">
+    <action name="Execute">
+      <command>pactl set-sink-mute @DEFAULT_SINK@ toggle</command>
+    </action>
+  </keybind>
   </keyboard>
   <!-- THEME -->
   <theme>
