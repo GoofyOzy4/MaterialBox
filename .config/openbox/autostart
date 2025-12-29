@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# --- compositor ---
+picom --no-frame-pacing &
+
+# --- clipboard ---
+xclip &
+
+# --- Startuo ---
+wal -i "$HOME/.config/openbox/wallpaper.img" --saturate 0.03
+sleep 0.1
+dunst &
+polybar &
