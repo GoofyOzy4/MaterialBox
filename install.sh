@@ -1,111 +1,126 @@
-#!/bin/sh
-# By Goofy_Ozy4
-# # # # # # # # # # Install Dependencies # # # # # # # # # # #
-# Dependencies
-clear
-sleep 3
-PACKAGES="git zsh imagemagick dunst unzip zip python3 python-pip feh kitty maim picom rofi bluez polybar thunar xclip feh noto-fonts-emoji"
+#!/bin/bash
+set -euo pipefail
 
-# Detect your package manager
-echo "📦 Installing dependencies..."
-elif command -v pacman >/dev/null; then
-    sudo pacman -Sy $PACKAGES --noconfirm
-else
-    echo "Error: Unsupported package manager. Try edit the installation script"
-    sleep 10
-    exit
+# ==============================
+# CONFIG
+# ==============================
+WORKDIR="$HOME/InstallingDot"
+FONTDIR="$HOME/.local/share/fonts"
+WALLDIR="$HOME/Wallpaper"
+
+PACKAGES=(
+  git zsh imagemagick dunst unzip zip python3 python-pip
+  feh kitty maim picom rofi bluez polybar thunar xclip
+  noto-fonts-emoji
+)
+
+# ==============================
+# FUNCTIONS
+# ==============================
+msg() { echo -e "\n▶ $1\n"; }
+pause() { sleep 2; }
+
+install_packages() {
+  msg "Installing dependencies..."
+
+  if command -v pacman >/dev/null; then
+    sudo pacman -Sy --noconfirm "${PACKAGES[@]}"
+  elif command -v apt >/dev/null; then
+    sudo apt update
+    sudo apt install -y "${PACKAGES[@]}"
+  else
+    echo "❌ Unsupported package manager"
+    exit 1
+  fi
+}
+
+# ==============================
+# START
+# ==============================
+clear
+install_packages
+pause
+
+# ==============================
+# PYWAL
+# ==============================
+msg "Installing pywal16"
+sudo pip install pywal16 --break-system-packages
+
+# ==============================
+# DIRECTORIES
+# ==============================
+mkdir -p "$WORKDIR" "$FONTDIR" "$WALLDIR"
+cd "$WORKDIR"
+
+# ==============================
+# FONTS
+# ==============================
+msg "Installing fonts"
+
+wget -q https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/JetBrainsMono.zip
+wget -q https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/Iosevka.zip
+
+unzip -oq JetBrainsMono.zip -d "$FONTDIR/JetBrainsMono"
+unzip -oq Iosevka.zip -d "$FONTDIR/Iosevka"
+
+git clone https://github.com/hprobotic/Google-Sans-Font.git "$FONTDIR/GoogleSans"
+
+mkdir -p "$FONTDIR/Material-icons"
+wget -q -O "$FONTDIR/Material-icons/MaterialSymbols.ttf" \
+https://raw.githubusercontent.com/google/material-design-icons/master/variablefont/MaterialSymbolsOutlined%5BFILL%2CGRAD%2Copsz%2Cwght%5D.ttf
+
+fc-cache -fv
+pause
+
+# ==============================
+# DOTFILES
+# ==============================
+msg "Installing dotfiles"
+git clone https://github.com/GoofyOzy4/MaterialBox "$WORKDIR/MaterialBox"
+
+cp -r "$WORKDIR/MaterialBox/.config" ~/
+cp -r "$WORKDIR/MaterialBox/.local/share/"* ~/.local/share/
+cp -r "$WORKDIR/MaterialBox/.themes" ~/
+
+# ==============================
+# WALLPAPER + PYWAL
+# ==============================
+msg "Setting wallpaper and colors"
+
+cp "$WORKDIR/MaterialBox/Wallpaper/Wallpaper.png" "$WALLDIR/"
+
+wal -i "$WALLDIR/Wallpaper.png"
+ln -sf ~/.cache/wal/dunstrc ~/.config/dunst/dunstrc
+
+dunst &
+sleep 5
+notify-send "Test" "Dunst is working!" -i "$WALLDIR/Wallpaper.png"
+
+# ==============================
+# PERMISSIONS
+# ==============================
+chmod +x ~/.config/polybar/scripts/{network.sh,powermenu.sh,volume.sh,wallpaper.sh}
+
+# ==============================
+# ZSH
+# ==============================
+msg "Installing Oh My Zsh"
+
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
-sleep 5
-# # # # # # # # # # Install pywal # # # # # # # # # #
-clear
-echo "📁 Setting up color pallete generator (pywal16)..."
-sudo pip install "pywal16" --break-system-packages
+chsh -s "$(which zsh)"
 
-mkdir ~/InstallingDot
-cd ~/InstallingDot
-sleep 5
-
-# # # # # # # # # # Install fonts # # # # # # # # # #
-clear
-echo "📁 Setting up fonts..."
-mkdir -p ~/.local/share/fonts
-clear
-
-echo "📁 Setting up fonts..."
-echo "• Downloading JetBrainsMono font..."
-wget -q https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/JetBrainsMono.zip
-clear
-
-echo "📁 Setting up fonts..."
-echo "• Google Sans font..."
-git clone https://github.com/hprobotic/Google-Sans-Font.git ~/.local/share/fonts
-clear
-
-echo "📁 Setting up fonts..."
-echo "• Material symbols font..."
-wget --no-hsts -cNP ~/.local/share/fonts/Material-icons/ \
-https://raw.githubusercontent.com/google/material-design-icons/master/variablefont/MaterialSymbolsOutlined%5BFILL%2CGRAD%2Copsz%2Cwght%5D.ttf
-clear
-
-echo "📁 Setting up fonts..."
-echo "• Downloading Iosevka font..."
-wget -q https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/Iosevka.zip
-clear
-
-echo "📁 Unpacking fonts..."
-unzip -q JetBrainsMono.zip -d ~/.local/share/fonts/JetBrainsMono
-unzip -q Iosevka.zip -d ~/.local/share/fonts/Iosevka
-
-cd ~/InstallingDot
-clear
-
-echo "📁 Generating cache for fonts..."
-sleep 3
-kitty fc-cache -fv
-echo "done !"
-sleep 3
-# # # # # # # # # Install Dotfiles # # # # # # # # # #
-clear
-echo "📂 Installing dotfiles..."
-git clone https://github.com/GoofyOzy4/MaterialBox ~/InstallingDot/MaterialBox
-cp -r ~/InstallingDot/MaterialBox/.config ~/
-sleep 1
-cp -r ~/InstallingDot/MaterialBox/.local/share/* ~/.local/share/
-sleep 1
-# # # # # # # # # Install wallpaper # # # # # # # # # #
-echo "🖼️ Setting up wallpapers..."
-mkdir -p ~/Wallpaper
-
-# Download wallpapers
-cp -r ~/InstallingDot/MaterialBox/Wallpaper/Wallpaper.png ~/Wallpaper/
-
-echo "🖼️ Auto-generating color pallete from wallpaper and check dunst..."
-kitty wal -i ~/Wallpaper/Wallpaper.png
-kitty ln -sf ~/.cache/wal/dunstrc ~/.config/dunst/dunstrc
-dunst &
 sleep 2
-notify-send "Test" "If you see this message - dunst work!" -i ~/Wallpaper/Wallpaper.png
-sleep 3
-notify-send "Test" "Write sudo pass." -i ~/Wallpaper/Wallpaper.png
 
-# Set some permissions
-chmod +x ~/.config/polybar/scripts/network.sh
-chmod +x ~/.config/polybar/scripts/powermenu.sh
-chmod +x ~/.config/polybar/scripts/volume.sh
-chmod +x ~/.config/polybar/scripts/wallpaper.sh
+cp "$WORKDIR/MaterialBox/.oh-my-zsh/themes/minimal.zsh-theme" ~/.oh-my-zsh/themes/
+cp "$WORKDIR/MaterialBox/.zshrc" ~/
 
-# # # # # # # # # # Install zsh # # # # # # # # # #
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-kitty chsh -s $(which zsh)
-cp -r ~/InstallingDot/MaterialBox/.oh-my-zsh/themes/minimal.zsh-theme ~/.oh-my-zsh/themes/minimal.zsh-theme
-cp -r ~/InstallingDot/MaterialBox/.zshrc ~/
-clear
-sleep 0.3
-rm -rf ~/InstallingDot
-notify-send "app" "Done !"
-# # # # # # # # # Clear all # # # # # # # # # #
-clear
-echo "✅ Installation complete!"
-sleep 10
-exit 0
+# ==============================
+# CLEANUP
+# ==============================
+rm -rf "$WORKDIR"
+
+msg "✅ Installation complete!"
