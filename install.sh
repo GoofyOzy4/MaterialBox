@@ -82,6 +82,7 @@ git clone https://github.com/GoofyOzy4/MaterialBox "$WORKDIR/MaterialBox"
 cp -r "$WORKDIR/MaterialBox/.config" ~/
 cp -r "$WORKDIR/MaterialBox/.local/share/"* ~/.local/share/
 cp -r "$WORKDIR/MaterialBox/.themes" ~/
+cp -r "$WORKDIR/MaterialBox/.gtkrc-2.0" ~/
 
 # ==============================
 # WALLPAPER + PYWAL
