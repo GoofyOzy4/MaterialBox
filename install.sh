@@ -11,7 +11,7 @@ WALLDIR="$HOME/Wallpaper"
 PACKAGES=(
   git zsh imagemagick dunst unzip zip python3 python-pip
   feh kitty maim picom rofi bluez polybar thunar xclip
-  noto-fonts-emoji
+  noto-fonts-emoji materia-gtk-theme
 )
 
 # ==============================
