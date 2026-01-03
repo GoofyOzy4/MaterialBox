@@ -1,4 +1,5 @@
 #!/bin/bash
+set +e
 set -euo pipefail
 
 # ==============================
@@ -124,5 +125,6 @@ cp "$WORKDIR/MaterialBox/.zshrc" ~/
 # CLEANUP
 # ==============================
 rm -rf "$WORKDIR"
+set -e
 
 msg "✅ Installation complete!"
