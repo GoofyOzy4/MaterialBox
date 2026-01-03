@@ -83,7 +83,13 @@ pause
 # DOTFILES
 # ==============================
 msg "Installing dotfiles"
-git clone https://github.com/GoofyOzy4/MaterialBox "$WORKDIR/MaterialBox"
+if [ -d "$WORKDIR/MaterialBox/.git" ]; then
+    echo "MaterialBox уже есть, обновляю"
+    git -C "$WORKDIR/MaterialBox" pull --ff-only
+else
+    echo "Клонирую MaterialBox"
+    git clone https://github.com/GoofyOzy4/MaterialBox "$WORKDIR/MaterialBox"
+fi
 
 cp -r "$WORKDIR/MaterialBox/.config" ~/
 cp -r "$WORKDIR/MaterialBox/.local/share/"* ~/.local/share/
