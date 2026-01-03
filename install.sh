@@ -15,6 +15,10 @@ PACKAGES=(
   noto-fonts-emoji materia-gtk-theme
 )
 
+git clone https://aur.archlinux.org/neofetch.git
+cd neofetch
+makepkg -si
+
 # ==============================
 # FUNCTIONS
 # ==============================
