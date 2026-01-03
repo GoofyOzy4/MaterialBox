@@ -17,7 +17,7 @@ PACKAGES=(
 
 git clone https://aur.archlinux.org/neofetch.git
 cd neofetch
-makepkg -si
+makepkg -si --skippgpcheck
 
 # ==============================
 # FUNCTIONS
