@@ -84,10 +84,10 @@ pause
 # ==============================
 msg "Installing dotfiles"
 if [ -d "$WORKDIR/MaterialBox/.git" ]; then
-    echo "MaterialBox уже есть, обновляю"
+    echo "Dotfile is already installed, updating to latest"
     git -C "$WORKDIR/MaterialBox" pull --ff-only
 else
-    echo "Клонирую MaterialBox"
+    echo "Updating MaterialBox"
     git clone https://github.com/GoofyOzy4/MaterialBox "$WORKDIR/MaterialBox"
 fi
 
