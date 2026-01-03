@@ -104,7 +104,8 @@ msg "Setting wallpaper and colors"
 cp "$WORKDIR/MaterialBox/Wallpaper/Wallpaper.png" "$WALLDIR/"
 
 ln -sf ~/.cache/wal/dunstrc ~/.config/dunst/dunstrc
-ln -s ~/.cache/wal/themerc ~/.themes/Material3/openbox-3/themerc
+ln -sf ~/.cache/wal/themerc ~/.themes/Material3/openbox-3/themerc
+sleep 0.3
 wal -i "$WALLDIR/Wallpaper.png"
 
 dunst &
