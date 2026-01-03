@@ -22,7 +22,7 @@ PACKAGES=(
 rm -rf ~/neofetch
 git clone https://aur.archlinux.org/neofetch.git
 cd neofetch
-makepkg -si --skippgpcheck --nocomfirm
+makepkg -si --skippgpcheck --noconfirm
 rm -rf ~/neofetch 
 
 # ==============================
