@@ -1,0 +1,17 @@
+* {{
+   font       :         "Poppins Medium 10";
+   background :         {color1}E6;
+   foreground :         #ffffff;
+   accent :             {color14};
+   urgent :             {color14};
+   border-col :         {color15}90;
+   background-color :   transparent;
+   text-color       :   {color7};
+   margin  :            0;
+   padding :            0;
+   spacing :            0;
+
+   Material-Dark-Background :      #1A1C19;
+   Material-Dark-Button :          #303030;
+   Material-ButtonH :         {color2};
+}}
