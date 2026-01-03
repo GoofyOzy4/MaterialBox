@@ -65,7 +65,12 @@ wget -q https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/Iosevka
 unzip -oq JetBrainsMono.zip -d "$FONTDIR/JetBrainsMono"
 unzip -oq Iosevka.zip -d "$FONTDIR/Iosevka"
 
-git clone https://github.com/hprobotic/Google-Sans-Font.git "$FONTDIR/GoogleSans"
+if [ ! -d "$FONTDIR/GoogleSans/.git" ]; then
+    git clone https://github.com/hprobotic/Google-Sans-Font.git "$FONTDIR/GoogleSans"
+else
+    git -C "$FONTDIR/GoogleSans" pull
+fi
+
 
 mkdir -p "$FONTDIR/Material-icons"
 wget -q -O "$FONTDIR/Material-icons/MaterialSymbols.ttf" \
