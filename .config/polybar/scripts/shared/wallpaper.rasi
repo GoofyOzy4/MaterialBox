@@ -60,7 +60,7 @@ element.selected {
 }
 
 element-text {
-  font : "Poppins Medium 10";
+  font : "Google Sans Medium 10";
   text-color: inherit;
   vertical-align: 0.5;
   horizontal-align: 0;
